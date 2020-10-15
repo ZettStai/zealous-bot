@@ -4,13 +4,16 @@
 import os
 
 import discord
+from discord.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-client = discord.Client()
+# client = discord.Client()
+
+client = commands.Bot(command_prefix='.')
 
 @client.event
 async def on_ready():
@@ -28,81 +31,86 @@ async def on_ready():
   members = '\n - '.join([member.name for member in guild.members])
   print(f'Guild Members:\n - {members}')
 
-@client.event
-async def on_message(message):
 
-  if message.author == client.user:
-    return
+@client.command()
+async def ping(ctx):
+  await ctx.send('Pong!')
 
-  if 'wynonna earp' in message.content.lower():
-    await message.channel.send('😒🍍')
+## @client.event
+# async def on_message(message):
 
-  if message.content.startswith('z!'):
-    await message.channel.send('Hello ' + str(message.author))
+#   if message.author == client.user:
+#     return
+
+#   if 'wynonna earp' in message.content.lower():
+#     await message.channel.send('😒🍍')
+
+#   if message.content.startswith('z!'):
+#     await message.channel.send('Hello ' + str(message.author))
 
 client.run(TOKEN)
 
 
-// Imports
-const Discord = require('discord.js');
-const FileStream = require('fs');
-const Configuration = require('./config.json');
+#  Imports
+# const Discord = require('discord.js');
+# const FileStream = require('fs');
+# const Configuration = require('./config.json');
 
-// Variables
-const client = new Discord.Client();
+# // Variables
+# const client = new Discord.Client();
 
-// Things to do on start
-setCommands(client);
-client.login(Configuration.token);
+# // Things to do on start
+# setCommands(client);
+# client.login(Configuration.token);
 
-// Events to listen on
-client.once('ready', () => onReady());
-client.on('message', message => onMessage(message));
+# // Events to listen on
+# client.once('ready', () => onReady());
+# client.on('message', message => onMessage(message));
 
-// Functions
-function setCommands(client) {
-    client.commands = new Discord.Collection();
+# // Functions
+# function setCommands(client) {
+#     client.commands = new Discord.Collection();
 
-    const commandFiles = FileStream.readdirSync('./commands').filter(file => file.endsWith('.js'));
+#     const commandFiles = FileStream.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-    for (const file of commandFiles) {
-        const command = require(`./commands/${file}`);
-        client.commands.set(command.name, command);
-    }
-}
+#     for (const file of commandFiles) {
+#         const command = require(`./commands/${file}`);
+#         client.commands.set(command.name, command);
+#     }
+# }
 
-function onReady() {
-    console.log('Ready!');
-}
+# function onReady() {
+#     console.log('Ready!');
+# }
 
-function onMessage(message) {
-    if (isValidCommand(message.author, message.content)) {
-        const command = getCommand(message.content, Configuration.prefix);
-        const args = getArgs(message.content);
+# function onMessage(message) {
+#     if (isValidCommand(message.author, message.content)) {
+#         const command = getCommand(message.content, Configuration.prefix);
+#         const args = getArgs(message.content);
 
-        if (client.commands.has(command)) {
-            try {
-                const module = client.commands.get(command);
-                module.execute(message, args);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-    }
-}
+#         if (client.commands.has(command)) {
+#             try {
+#                 const module = client.commands.get(command);
+#                 module.execute(message, args);
+#             } catch (error) {
+#                 console.error(error);
+#             }
+#         }
+#     }
+# }
 
-function isValidCommand(user, string) {
-    return !user.bot && string.startsWith(Configuration.prefix);
-}
+# function isValidCommand(user, string) {
+#     return !user.bot && string.startsWith(Configuration.prefix);
+# }
 
-function getCommand(string, prefix) {
-    var words = string.split(/\s+/);
-    var command = words.shift();
-    return command.slice(prefix.length);
-}
+# function getCommand(string, prefix) {
+#     var words = string.split(/\s+/);
+#     var command = words.shift();
+#     return command.slice(prefix.length);
+# }
 
-function getArgs(string) {
-    var words = string.split(/\s+/);
-    words.shift();
-    return words;
-}
+# function getArgs(string) {
+#     var words = string.split(/\s+/);
+#     words.shift();
+#     return words;
+# }

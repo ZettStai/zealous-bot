@@ -5,7 +5,7 @@ def loadTrivia(filename):
   with open (filename) as fd:
     readcsv = csv.reader(fd, delimiter=',')
     data = list(readcsv)
-    print (len(data))
+    #print (len(data))
 
   return data
 
@@ -19,7 +19,7 @@ def randomQuestion(questionsarray):
 if __name__ == "__main__":
   questions = loadTrivia('carmillaservertrivia.csv')
   selectedquestion = randomQuestion(questions)
-  print(selectedquestion)
+  #print(selectedquestion)
   category = selectedquestion[0]
   q = selectedquestion[1]
 
@@ -47,17 +47,21 @@ if __name__ == "__main__":
   ansdict['c'] = ansbank[2]
   ansdict['d'] = ansbank[3]
 
+  print("Carmilla Trivia Time! Are you ready?\n")
   print("The category is: " + category)
-  print("Question: " + q)
+  print("\nQuestion: " + q)
 
-  print("Choose one: ")
-  print(ansbank)
+  print("\nChoose one: ")
+  print("a) " + ansbank[0])
+  print("b) " + ansbank[1])
+  print("c) " + ansbank[2])
+  print("d) " + ansbank[3])
+  print("\nYour answer: ")
 
   userans = input()
 
   if ansdict[userans].lower() == correctans.lower():
-    print("Correct")
+    print("\nThat's correct... Did you cheat?")
   else:
-    print ("\nFake fan...")
-    print ("The correct answer is: " + correctans)
+    print ("\nFake fan... The correct answer is: " + correctans)
 
